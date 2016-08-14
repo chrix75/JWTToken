@@ -38,6 +38,22 @@ public class BasicJWTManager implements JWTManager {
         return newToken(jwt);
     }
 
+    @Override
+    public Map<String, String> buildFullTimeToken(String apiKey, String login) {
+        final long iat = System.currentTimeMillis() / 1000l; // issued at claim
+
+        final JWTSigner signer = new JWTSigner(secret);
+        final HashMap<String, Object> claims = new HashMap<String, Object>();
+        claims.put("iss", issuer);
+        claims.put("aud", apiKey);
+        claims.put("iat", iat);
+        claims.put("sub", login);
+
+        final String jwt = signer.sign(claims);
+
+        return newToken(jwt);
+    }
+
     private Map<String,String> newToken(String jwt) {
         Map<String, String> token = new HashMap<>();
         token.put("token", jwt);

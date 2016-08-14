@@ -13,4 +13,6 @@ public interface JWTManager {
     boolean isValidToken(String token);
 
     Map<String, Object> getClaims(String token)  throws JWTTokenException;
+
+    Map<String,String> buildFullTimeToken(String apiKey, String login);
 }
