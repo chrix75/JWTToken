@@ -41,11 +41,13 @@ public class BasicJWTManager implements JWTManager {
     @Override
     public Map<String, String> buildFullTimeToken(String apiKey, String login) {
         final long iat = System.currentTimeMillis() / 1000l; // issued at claim
+        final long exp = iat + 365 * (24 * 3600L); // 1 year of validity
 
         final JWTSigner signer = new JWTSigner(secret);
         final HashMap<String, Object> claims = new HashMap<String, Object>();
         claims.put("iss", issuer);
         claims.put("aud", apiKey);
+        claims.put("exp", exp);
         claims.put("iat", iat);
         claims.put("sub", login);
 
